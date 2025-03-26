@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Love Story</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Playfair+Display:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body, html {
+            height: auto;
+            min-height: 100vh;
+            font-family: 'Merriweather', serif;
+            background: linear-gradient(135deg, #0C0C2C, #1A1A3A);
+            overflow-x: hidden;
+            color: white;
+            scroll-behavior: smooth;
+        }
+        .page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+        .starry-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle 1s infinite alternate;
+        }
+        .star-large {
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+        }
+        @keyframes twinkle {
+            0% { opacity: 0.2; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .shooting-star {
+            position: fixed;
+            width: 2px;
+            height: 300px;
+            background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,0.8), rgba(255,255,255,0));
+            transform: rotate(-45deg);
+            pointer-events: none;
+            z-index: 2;
+            animation: shootingStar 3s linear infinite;
+        }
+        @keyframes shootingStar {
+            0% {
+                transform: rotate(-45deg) translateX(-100%);
+                opacity: 1;
+            }
+            100% {
+                transform: rotate(-45deg) translateX(200vw);
+                opacity: 0;
+            }
+        }
+        .elegant-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            padding: 3rem;
+            max-width: 700px;
+            width: 100%;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 10;
+        }
+        .cover-title {
+            font-family: 'Great Vibes', cursive;
+            color: #FF69B4;
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .interactive-memory {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+        .memory-reveal {
+            background: linear-gradient(145deg, #FF69B4, #FF1493);
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 1.5rem;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .memory-reveal::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255,255,255,0.1);
+            transform: rotate(-45deg);
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+        .memory-reveal:hover::before {
+            opacity: 1;
+        }
+        .memory-reveal:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .movie-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .movie-card:hover {
+            transform: scale(1.05);
+            background: rgba(255,255,255,0.2);
+        }
+        .love-message {
+            background: linear-gradient(135deg, rgba(255,105,180,0.2), rgba(255,20,147,0.2));
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .love-message::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+        }
+        #celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .proposal-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .proposal-button {
+            padding: 12px 24px;
+            border-radius: 50px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        #yesButton {
+            background-color: #FF69B4;
+            color: white;
+        }
+        #noButton {
+            background-color: #FF1493;
+            color: white;
+            position: absolute;
+        }
+        #yesButton:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(255,105,180,0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="starry-background" id="star-container"></div>
+
+    <div class="page" id="cover-page">
+        <div class="elegant-card">
+            <h1 class="cover-title">Happy Anniversary My Love ❤️</h1>
+            <h2 style="color: #FF1493; margin-bottom: 2rem; font-family: 'Great Vibes', cursive; font-size: 2.5rem;">
+                One Year of Magical Moments
+            </h2>
+            <img src="IMG_2940.PNG" alt="Couple" style="border-radius: 50%; width: 250px; height: 250px; object-fit: cover; margin: 0 auto 2rem; box-shadow: 0 10px 20px rgba(0,0,0,0.3);">
+            <p style="color: white; line-height: 1.6; font-family: 'Great Vibes', cursive; font-size: 1.5rem;">
+                A journey of love, passion, and endless moments that take my breath away.
+            </p>
+        </div>
+    </div>
+
+    <div class="page" id="interactive-memories-page">
+        <div class="elegant-card">
+            <h2 style="font-family: 'Playfair Display', serif; color: #FF69B4; margin-bottom: 2rem;">
+                Our Date Ideas & Romantic Movies
+            </h2>
+            <div class="interactive-memory">
+                <div id="memory1" class="memory-reveal" onclick="revealMemory(1)">
+                    <i class="icon">🌌</i>
+                    <span>Date Idea</span>
+                </div>
+               
+                <div id="memory2" class="memory-reveal" onclick="revealMemory(2)">
+                    <i class="icon">🍽️</i>
+                    <span>Date Idea</span>
+                </div>
+                <div id="memory3" class="memory-reveal" onclick="revealMemory(3)">
+                    <i class="icon">🚗</i>
+                    <span>Date Idea</span>
+                </div>
+                <div id="memory4" class="memory-reveal" onclick="revealMemory(4)">
+                    <i class="icon">👩🏼‍🍳</i>
+                    <span>Date Idea</span>
+                </div>
+                <div id="memory5" class="memory-reveal" onclick="revealMemory(5)">
+                    <i class="icon">🧖🏻</i>
+                    <span>Date Idea</span>
+                </div>
+                <div id="memory6" class="memory-reveal" onclick="revealMemory(6)">
+                    <i class="icon">🌕</i>
+                    <span>Date Idea</span>
+                </div>
+            </div>
+            
+            <div class="movie-grid" id="movie-grid" style="display: none;">
+                <div class="movie-card" onclick="openNetflixMovie('The Notebook')">
+                    Be With You
+                </div>
+                <div class="movie-card" onclick="openNetflixMovie('La La Land')">
+                    La La Land
+                </div>
+                <div class="movie-card" onclick="openNetflixMovie('Titanic')">
+                    Titanic
+                </div>
+                <div class="movie-card" onclick="openNetflixMovie(' Me Before You')">
+                   Me Before You
+                </div>
+                <div class="movie-card" onclick="openNetflixMovie('Batman')">
+                    Batman
+                </div>
+                <div class="movie-card" onclick="openNetflixMovie('Eternal Sunshine of the Spotless Mind')">
+                    Eternal Sunshine of the Spotless Mind
+                </div>
+                <div class="movie-card" onclick="openNetflixMovie('Shrek')">
+                    Shrek
+                </div>
+                <div class="movie-card" onclick="openNetflixMovie('Her')">
+                    Her
+                </div>
+                <div class="movie-card" onclick="openNetflixMovie('Blade Runner 2049')">
+                    Blade Runner 2049
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page" id="love-message-page">
+        <div class="elegant-card">
+            <h2 style="font-family: 'Great Vibes', cursive; color: #FF69B4; margin-bottom: 2rem; font-size: 3rem;">
+                My Love for You
+            </h2>
+            <div class="love-message">
+                <p style="color: white; line-height: 1.6; font-style: italic; position: relative; z-index: 2;">
+                    I still can't believe how fast time passed, love. Every moment with you feels so special, so magical. 
+                    Honey, you are the best thing that ever happened to me. I feel so lucky to have you by my side.  
+
+                    You always make me smile, always make me feel loved. No matter what happens, you are always there for me, 
+                    holding my hand, standing with me. I can't thank you enough for everything you do for me, my love.  
+                    
+                    Honey, you are my happiness, my peace, my everything. You make my life so beautiful with your love and care. 
+                    I love you more than words can ever say.  
+                    
+                    Darling, I promise to always love you, always stand by your side, always be yours. 
+                    Thank you for being mine, for loving me the way you do. 
+                    Happy anniversary, my love! I can't wait to spend many more years with you.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="page" id="proposal-section">
+        <div class="elegant-card">
+            <h2 style="font-family: 'Great Vibes', cursive; color: #FF69B4; margin-bottom: 2rem; font-size: 3rem;">
+                Will You Marry Me?
+            </h2>
+            <p style="color: white; line-height: 1.6; margin-bottom: 2rem; font-style: italic;">
+                After this incredible year, I can't imagine my life without you.
+                Will you be my partner, my love, my everything?
+            </p>
+            <div class="proposal-buttons">
+                <button id="yesButton" class="proposal-button" onclick="handleYes()">
+                    Yes, I Will!
+                </button>
+                <button id="noButton" class="proposal-button">
+                    No
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="celebration">
+        <h1 style="font-size: 4rem; color: #FF69B4; margin-bottom: 2rem;">
+            Congratulations! 🎉
+        </h1>
+        <p style="font-size: 2rem; color: white; margin-bottom: 2rem;">
+            WE ARE Getting Married! 💍❤️
+        </p>
+        <button onclick="closeCelebration()" style="
+            background-color: #FF69B4; 
+            color: white; 
+            border: none; 
+            padding: 12px 24px; 
+            border-radius: 50px; 
+            font-weight: bold; 
+            cursor: pointer;
+        ">
+            Close
+        </button>
+    </div>
+
+    <script>
+        function createStarryBackground() {
+            const container = document.getElementById('star-container');
+            
+            // Create more background stars with variation
+            for (let i = 0; i < 500; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // Varying star sizes
+                const size = Math.random() * 3;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                
+                // Add large star effect to some stars
+                if (Math.random() < 0.1) {
+                    star.classList.add('star-large');
+                }
+                
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.animationDelay = `${Math.random() * 2}s`;
+                container.appendChild(star);
+            }
+        }
+
+        function createShootingStar() {
+            const star = document.createElement('div');
+            star.classList.add('shooting-star');
+            
+            // Randomize start position
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.top = `-300px`;
+            
+            // Randomize animation duration and delay
+            const duration = Math.random() * 3 + 2;
+            const delay = Math.random() * 5;
+            star.style.animationDuration = `${duration}s`;
+            star.style.animationDelay = `-${delay}s`;
+            
+            document.body.appendChild(star);
+
+            // Remove star after animation
+            setTimeout(() => {
+                document.body.removeChild(star);
+            }, (duration + delay) * 1000);
+        }
+
+        function revealMemory(memoryNum) {
+            const memory = document.getElementById(`memory${memoryNum}`);
+            const memories = [
+                "🌌Date Night under The Starry Sky🌠",
+                "🍽️Expensive Dinner At The Fancy Restaurant",
+                "🚗A Road Trip To The Beach🏝️",
+                "Cooking Together🍝🔥",
+                "Couple’s Spa Day",
+                "Dance Under the Moonlight 💃"
+            ];
+            
+            memory.innerHTML = memories[memoryNum - 1];
+            memory.style.backgroundColor = 'rgba(255,255,255,0.3)';
+            memory.style.color = 'white';
+
+            // Show movie grid after revealing memories
+            document.getElementById('movie-grid').style.display = 'grid';
+        }
+
+        function openNetflixMovie(movieName) {
+            // In a real implementation, this would open Netflix
+            alert(`Opening ${movieName} on Netflix`);
+            // You would replace this with actual Netflix integration
+        }
+
+        function handleYes() {
+            const celebration = document.getElementById('celebration');
+            celebration.style.display = 'flex';
+        }
+
+        function closeCelebration() {
+            const celebration = document.getElementById('celebration');
+            celebration.style.display = 'none';
+        }
+
+        // Shooting star and star creation
+        createStarryBackground();
+        
+        // Create shooting stars frequently
+        setInterval(createShootingStar, 1000);
+
+        // No button movement
+        const noButton = document.getElementById('noButton');
+        noButton.addEventListener('mouseover', (e) => {
+            const containerRect = noButton.parentElement.getBoundingClientRect();
+            const buttonRect = noButton.getBoundingClientRect();
+            
+            const maxX = containerRect.width - buttonRect.width;
+            const maxY = containerRect.height - buttonRect.height;
+
+            noButton.style.left = `${Math.random() * maxX}px`;
+            noButton.style.top = `${Math.random() * maxY}px`;
+        });
+    </script>
+</body>
+</html>
